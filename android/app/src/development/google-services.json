@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "444807325563",
+    "project_id": "sigma-dev-556d4",
+    "storage_bucket": "sigma-dev-556d4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:444807325563:android:67cb17173b1eacdad3bfde",
+        "android_client_info": {
+          "package_name": "com.example.sigma.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "444807325563-v6ha50e28ubupbqqt0fn05v3jliqi9ul.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGhIkdJNp97wyro2ZhEfay133QntzVazE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "444807325563-v6ha50e28ubupbqqt0fn05v3jliqi9ul.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
