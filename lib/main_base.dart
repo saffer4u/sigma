@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'modules/app/app.dart';
 import 'modules/app/sigma_app_modules.dart';
@@ -16,6 +17,7 @@ void runMain({
   runZonedGuarded<Future<void>>(
     () async {
       await _init(configInit: configInit);
+
       runApp(ModularApp(module: SigmaAppModule(), child: App()));
     },
     (error, stack) {
@@ -36,4 +38,5 @@ Future<void> _init({
   }
 
   FlavorConfig flavorConfig = configInit();
+  await Hive.initFlutter();
 }
