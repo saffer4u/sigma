@@ -1,13 +1,14 @@
 import 'package:flutter_modular/flutter_modular.dart';
+
+import '../app/sigma_app_modules.dart';
 import 'pages/add_listener.dart';
 import 'pages/add_status_listener.dart';
 import 'pages/animation_home.dart';
 import 'pages/animted_builder.dart';
+import 'pages/confetti_animation.dart';
 import 'pages/hero_animation.dart';
 import 'pages/implicit_animations.dart';
 import 'pages/simultaneous_animation.dart';
-
-import '../app/sigma_app_modules.dart';
 
 class AnimationModule extends Module {
   @override
@@ -43,6 +44,10 @@ class AnimationModule extends Module {
           AnimationModuleRoute.simultaneousAnimation,
           child: (context, args) => const SimultaneousAnimationPage(),
         ),
+        ChildRoute(
+          AnimationModuleRoute.confettiAnimation,
+          child: (context, args) =>  ConfettiAnimationPage(),
+        ),
       ];
 }
 
@@ -54,6 +59,7 @@ abstract class AnimationModuleRoute {
   static const String heroAnimation = '/hero_animation';
   static const String implicitAnimations = '/implicit_animations';
   static const String simultaneousAnimation = '/simultaneousAnimation';
+  static const String confettiAnimation = '/confetti_animation';
 
   static String getRoute(String route) {
     return SigmaAppModuleRoute.animations + route;

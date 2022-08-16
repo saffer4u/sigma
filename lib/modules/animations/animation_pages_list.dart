@@ -2,7 +2,7 @@ import 'animations_module.dart';
 import 'models/animation_page.dart';
 
 final List<AnimationPage> animationPagesList = [
-    AnimationPage(
+  AnimationPage(
     pageRoute:
         AnimationModuleRoute.getRoute(AnimationModuleRoute.heroAnimation),
     pageName: "Hero Animation",
@@ -21,7 +21,6 @@ final List<AnimationPage> animationPagesList = [
         AnimationModuleRoute.getRoute(AnimationModuleRoute.animatedBuilder),
     pageName: "Animated Builder",
   ),
-
   AnimationPage(
     pageRoute:
         AnimationModuleRoute.getRoute(AnimationModuleRoute.implicitAnimations),
@@ -31,5 +30,10 @@ final List<AnimationPage> animationPagesList = [
     pageRoute: AnimationModuleRoute.getRoute(
         AnimationModuleRoute.simultaneousAnimation),
     pageName: "Simultaneous Animation",
+  ),
+  AnimationPage(
+    pageName: "Confetti Animation",
+    pageRoute:
+        AnimationModuleRoute.getRoute(AnimationModuleRoute.confettiAnimation),
   ),
 ];

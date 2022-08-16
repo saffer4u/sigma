@@ -14,4 +14,12 @@ final List<RandomPage> randomPagesList = [
     pageName: "Dart IPIFY",
     pageRoute: RandomModuleRoute.getRoute(RandomModuleRoute.dartIpify),
   ),
+  RandomPage(
+    pageName: "Neomorphism",
+    pageRoute: RandomModuleRoute.getRoute(RandomModuleRoute.neoMorphism),
+  ),
+  RandomPage(
+    pageName: "Responsive",
+    pageRoute: RandomModuleRoute.getRoute(RandomModuleRoute.responsive),
+  ),
 ];

@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:sigma/modules/app/app.dart';
-import 'package:sigma/modules/app/sigma_app_modules.dart';
-import 'package:sigma/src/config/flavor_config.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import 'modules/app/app.dart';
+import 'modules/app/sigma_app_modules.dart';
+import 'src/config/flavor_config.dart';
 
 void runMain({
   required FlavorConfig Function() configInit,
@@ -14,6 +17,7 @@ void runMain({
   runZonedGuarded<Future<void>>(
     () async {
       await _init(configInit: configInit);
+
       runApp(ModularApp(module: SigmaAppModule(), child: App()));
     },
     (error, stack) {
@@ -28,8 +32,11 @@ void runMain({
 Future<void> _init({
   required FlavorConfig Function() configInit,
 }) async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  if (!kIsWeb) {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+  }
 
   FlavorConfig flavorConfig = configInit();
+  await Hive.initFlutter();
 }

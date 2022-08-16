@@ -1,4 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:sigma/modules/todo_hive/todo_hive_module.dart';
 
 import '../../src/config/flavor_config.dart';
 import '../animations/animations_module.dart';
@@ -18,10 +19,12 @@ class SigmaAppModule extends Module {
         ChildRoute("/", child: (context, args) => HomePage()),
         ModuleRoute(SigmaAppModuleRoute.animations, module: AnimationModule()),
         ModuleRoute(SigmaAppModuleRoute.random, module: RandomModule()),
+        ModuleRoute(SigmaAppModuleRoute.todoHive, module: TodoHiveModule()),
       ];
 }
 
 class SigmaAppModuleRoute {
   static const String animations = '/animations_module';
   static const String random = "/random_module";
+  static const String todoHive = "/todo_hive";
 }
