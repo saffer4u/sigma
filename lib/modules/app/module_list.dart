@@ -1,3 +1,4 @@
+import 'package:sigma/modules/login/login_module.dart';
 import 'package:sigma/modules/todo_hive/todo_hive_module.dart';
 
 import '../animations/animations_module.dart';
@@ -18,5 +19,9 @@ final List<ModuleInfo> modulesList = [
     moduleName: "Todo Hive Module",
     moduleRoute:
         TodoHiveModuleRoutes.getRoute(TodoHiveModuleRoutes.todoHiveHome),
+  ),
+  ModuleInfo(
+    moduleName: "Login",
+    moduleRoute: LoginModuleRoute.getRoute(LoginModuleRoute.loginHome),
   ),
 ];
