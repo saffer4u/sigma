@@ -17,5 +17,3 @@ class LoginFaildState extends LoginState {
 }
 
 class LoginSuccessState extends LoginState {}
-
-class AlreadyLoginState extends LoginState {}

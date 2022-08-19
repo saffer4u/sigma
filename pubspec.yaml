@@ -59,10 +59,12 @@ dependencies:
   equatable: ^2.0.3
   firebase_auth: ^3.6.3
   
+  
 
 dev_dependencies:
   hive_generator:
   build_runner:
+  json_serializable: '>4.4.0'
   flutter_test:
     sdk: flutter
 

@@ -17,17 +17,27 @@ class LoginCubit extends Cubit<LoginState> {
     if (user == null) {
       emit(LoginInitial());
     } else {
-      emit(AlreadyLoginState());
+      emit(LoginSuccessState());
     }
   }
 
-  void signUp({required String email, required String password}) async {
+  void login({required String email, required String password}) async {
     emit(LoginLoadingState());
     try {
-      await _authService.signUp(email: email, password: password);
+      await _authService.login(email: email, password: password);
+      emit(LoginSuccessState());
+    } catch (e) {
+      emit(LoginFaildState(message: e.toString()));
+    }
+  }
+
+  void logOut() async {
+    emit(LoginLoadingState());
+    try {
+      await _authService.logOut();
       emit(LoginInitial());
     } catch (e) {
-      print(e.toString());
+      emit(LoginFaildState(message: e.toString()));
     }
   }
 }

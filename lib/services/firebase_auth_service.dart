@@ -7,7 +7,7 @@ class FirebaseAuthService {
 
   String get getUid => _authInstence.currentUser!.uid;
 
-  void logOut() => _authInstence.signOut();
+  Future<void> logOut() async => await _authInstence.signOut();
 
   Stream<User?> getCurrentUser() => _authInstence.userChanges();
 
@@ -26,6 +26,22 @@ class FirebaseAuthService {
       }
     } catch (e) {
       log(e.toString());
+    }
+  }
+
+  Future<void> login({required String email, required String password}) async {
+    try {
+      final credential = await _authInstence.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      log(credential.user!.uid);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        throw ('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        throw ('Wrong password provided for that user.');
+      }
     }
   }
 }

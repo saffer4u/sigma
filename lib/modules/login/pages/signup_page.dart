@@ -1,30 +1,25 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:sigma/modules/login/cubit/login_cubit.dart';
+import 'package:sigma/modules/login/cubit/signup_cubit.dart';
 import 'package:sigma/modules/login/login_module.dart';
-import 'package:sigma/utils/helpers.dart';
 
-class LoginHomePage extends StatefulWidget {
-  const LoginHomePage({Key? key}) : super(key: key);
+import '../../../utils/helpers.dart';
+
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginHomePage> createState() => _LoginHomePageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _LoginHomePageState extends State<LoginHomePage> {
-  final _bloc = Modular.get<LoginCubit>();
+class _SignUpPageState extends State<SignUpPage> {
+  final _bloc = Modular.get<SignupCubit>();
   final emailController = TextEditingController();
 
   final passwordController = TextEditingController();
-
-  @override
-  void initState() {
-    _bloc.getUser();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,29 +27,29 @@ class _LoginHomePageState extends State<LoginHomePage> {
       value: _bloc,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Login"),
+          title: const Text("Sign Up"),
         ),
-        body: BlocConsumer<LoginCubit, LoginState>(
+        body: BlocConsumer<SignupCubit, SignupState>(
           listener: (context, state) {
-            if (state is LoginFaildState) {
+            if (state is SignupFaild) {
               _showErrorMessage(message: state.message);
             }
           },
           builder: (context, state) {
-            if (state is LoginLoadingState) {
+            if (state is Loading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (state is LoginSuccessState) {
+            } else if (state is SignupSuccess) {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Yor are Logged In"),
+                    const Text("Your account has been created"),
                     const SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: _bloc.logOut,
-                      child: const Text("Log out"),
+                      onPressed: () => Modular.to.pop(),
+                      child: const Text("Home"),
                     ),
                   ],
                 ),
@@ -78,17 +73,19 @@ class _LoginHomePageState extends State<LoginHomePage> {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
-                        _bloc.login(
+                        _bloc.signUp(
                           email: emailController.text,
                           password: passwordController.text,
                         );
                       },
-                      child: const Text("Login"),
+                      child: const Text("Sign Up"),
                     ),
                     TextButton(
                         onPressed: () => Modular.to.pushReplacementNamed(
-                            LoginModuleRoute.getRoute(LoginModuleRoute.signUp)),
-                        child: const Text("Sign Up"))
+                              LoginModuleRoute.getRoute(
+                                  LoginModuleRoute.loginHome),
+                            ),
+                        child: const Text("Login"))
                   ],
                 ),
               ),
