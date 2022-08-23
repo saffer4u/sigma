@@ -3,6 +3,7 @@ import 'package:sigma/modules/ledger/ledger_module.dart';
 import 'package:sigma/modules/login/cubit/login_cubit.dart';
 import 'package:sigma/modules/login/login_module.dart';
 import 'package:sigma/modules/todo_hive/todo_hive_module.dart';
+import 'package:sigma/services/database_service.dart';
 
 import '../../services/firebase_auth_service.dart';
 import '../../src/config/flavor_config.dart';
@@ -18,6 +19,7 @@ class SigmaAppModule extends Module {
         Bind.singleton((i) => FlavorConfig.instance!),
         Bind.singleton((i) => HomeBloc()),
         Bind((i) => FirebaseAuthService(), isSingleton: true),
+        Bind((i) => DatabaseService(), isSingleton: true),
       ];
 
   @override

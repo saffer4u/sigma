@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:sigma/modules/ledger/cubit/ledger_dashboard_cubit.dart';
 import 'package:sigma/modules/ledger/cubit/ledger_home_cubit.dart';
+import 'package:sigma/modules/ledger/cubit/ledger_list_cubit.dart';
 import 'package:sigma/modules/ledger/pages/ledger_dashboard_widget.dart';
 import 'package:sigma/modules/ledger/pages/ledger_list_widget.dart';
 import 'package:sigma/modules/login/login_module.dart';
@@ -18,10 +20,15 @@ class LedgerHome extends StatefulWidget {
 
 class _LedgerHomeState extends State<LedgerHome> {
   final _bloc = Modular.get<LedgerHomeCubit>();
+  final _blocDasboard = Modular.get<LedgerDashboardCubit>();
+  final _blocList = Modular.get<LedgerListCubit>();
+  final ledgerNameController = TextEditingController();
+  final ledgerDescriptionController = TextEditingController();
 
   @override
   void initState() {
     _bloc.getUserState();
+    _blocList.getList();
     super.initState();
   }
 
@@ -30,15 +37,12 @@ class _LedgerHomeState extends State<LedgerHome> {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: _bloc,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Ledger"),
-          elevation: 0,
-        ),
-        body: BlocBuilder<LedgerHomeCubit, LedgerHomeState>(
-          builder: (context, state) {
-            if (state is LedgerHomeSignOutState) {
-              return Center(
+      child: BlocBuilder<LedgerHomeCubit, LedgerHomeState>(
+        builder: (context, state) {
+          if (state is LedgerHomeSignOutState) {
+            return Scaffold(
+              appBar: AppBar(),
+              body: Center(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -50,10 +54,15 @@ class _LedgerHomeState extends State<LedgerHome> {
                               LoginModuleRoute.loginHome)),
                       child: const Text("LogIn")),
                 ],
-              ));
-            }
-
-            return Loader(
+              )),
+            );
+          }
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text("Ledger"),
+              elevation: 0,
+            ),
+            body: Loader(
               isLoading: state is Loading,
               child: DefaultTabController(
                 length: 2,
@@ -94,35 +103,57 @@ class _LedgerHomeState extends State<LedgerHome> {
                   ],
                 ),
               ),
-            );
-          },
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            Alerts.showBottomSheet(
-              context,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextFormField(
-                      textCapitalization: TextCapitalization.sentences,
-                      decoration:
-                          const InputDecoration(labelText: "Ledger Name"),
+            ),
+            floatingActionButton: FloatingActionButton.extended(
+              backgroundColor: SigmaColorScheme.primaryColor.withOpacity(0.7),
+              onPressed: () {
+                Alerts.showBottomSheet(
+                  context,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextFormField(
+                          controller: ledgerNameController,
+                          textCapitalization: TextCapitalization.sentences,
+                          decoration:
+                              const InputDecoration(labelText: "Ledger Name"),
+                        ),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          controller: ledgerDescriptionController,
+                          textCapitalization: TextCapitalization.sentences,
+                          decoration: const InputDecoration(
+                              labelText: "Ledger Description ( Optional )"),
+                        ),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () async {
+                            Modular.to.pop();
+
+                            await _blocDasboard.addLedger(
+                              ledgerDescription:
+                                  ledgerDescriptionController.text,
+                              ledgerName: ledgerNameController.text,
+                            );
+
+                            await _blocList.getList();
+                            ledgerNameController.clear();
+                          },
+                          child: const Text("Add Ledger"),
+                        )
+                      ],
                     ),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                        onPressed: () {}, child: const Text("Add Ledger"))
-                  ],
-                ),
-              ),
-            );
-          },
-          label: const Text("New Ledger"),
-          icon: const Icon(Icons.add),
-        ),
+                  ),
+                );
+              },
+              label: const Text("New Ledger"),
+              icon: const Icon(Icons.add),
+            ),
+          );
+        },
       ),
     );
   }
