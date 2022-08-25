@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:sigma/modules/app/pages/logged_out_page.dart';
 import 'package:sigma/modules/app/sigma_app_modules.dart';
 import 'package:sigma/modules/login/login_module.dart';
 
@@ -86,10 +87,19 @@ class _HomePageState extends State<HomePage> {
             separatorBuilder: (context, index) =>
                 const Divider(thickness: 1, height: 2),
             itemBuilder: (context, index) {
-              return ElevatedButton(
-                onPressed: () =>
-                    Modular.to.pushNamed(modulesList[index].moduleRoute),
-                child: Text(modulesList[index].moduleName),
+              return BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      if (state is UserLoggedOutState) {
+                        Modular.to.pushNamed(SigmaAppModuleRoute.loggedOutPage);
+                      } else {
+                        Modular.to.pushNamed(modulesList[index].moduleRoute);
+                      }
+                    },
+                    child: Text(modulesList[index].moduleName),
+                  );
+                },
               );
             },
           ),

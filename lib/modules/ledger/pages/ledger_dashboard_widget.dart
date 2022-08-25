@@ -27,6 +27,8 @@ class _LedgerDashboardWidgetState extends State<LedgerDashboardWidget> {
     super.initState();
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
@@ -78,12 +80,30 @@ class _LedgerDashboardWidgetState extends State<LedgerDashboardWidget> {
                             color: Colors.white,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 10),
                         Text(
                           state.ledgerCount.toString(),
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 60,
+                            color: SigmaColorScheme.secondaryColor,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          "TOTAL Amount",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          "₹ ${state.totalAmount}",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 40,
                             color: SigmaColorScheme.secondaryColor,
                           ),
                         ),

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -18,7 +20,8 @@ class LedgerHome extends StatefulWidget {
   State<LedgerHome> createState() => _LedgerHomeState();
 }
 
-class _LedgerHomeState extends State<LedgerHome> {
+class _LedgerHomeState extends State<LedgerHome>
+    with SingleTickerProviderStateMixin {
   final _bloc = Modular.get<LedgerHomeCubit>();
   final _blocDasboard = Modular.get<LedgerDashboardCubit>();
   final _blocList = Modular.get<LedgerListCubit>();
@@ -27,7 +30,6 @@ class _LedgerHomeState extends State<LedgerHome> {
 
   @override
   void initState() {
-    _bloc.getUserState();
     _blocList.getList();
     super.initState();
   }
@@ -39,24 +41,6 @@ class _LedgerHomeState extends State<LedgerHome> {
       value: _bloc,
       child: BlocBuilder<LedgerHomeCubit, LedgerHomeState>(
         builder: (context, state) {
-          if (state is LedgerHomeSignOutState) {
-            return Scaffold(
-              appBar: AppBar(),
-              body: Center(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("You are not Logged In"),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                      onPressed: () => Modular.to.pushReplacementNamed(
-                          LoginModuleRoute.getRoute(
-                              LoginModuleRoute.loginHome)),
-                      child: const Text("LogIn")),
-                ],
-              )),
-            );
-          }
           return Scaffold(
             appBar: AppBar(
               title: const Text("Ledger"),
@@ -66,42 +50,52 @@ class _LedgerHomeState extends State<LedgerHome> {
               isLoading: state is Loading,
               child: DefaultTabController(
                 length: 2,
-                child: Column(
-                  children: [
-                    Container(
-                      decoration: const BoxDecoration(
-                        color: SigmaColorScheme.primaryColor,
-                        boxShadow: [
-                          BoxShadow(
-                            color: SigmaColorScheme.shadowColor,
-                            spreadRadius: 2,
-                            blurRadius: 4,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
+                child: Builder(builder: (context) {
+                  final TabController tabController =
+                      DefaultTabController.of(context)!;
+                  tabController.addListener(() {
+                    if (!tabController.indexIsChanging) {}
+                  });
+                  return Column(
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: SigmaColorScheme.primaryColor,
+                          boxShadow: [
+                            BoxShadow(
+                              color: SigmaColorScheme.shadowColor,
+                              spreadRadius: 2,
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        constraints: const BoxConstraints.expand(height: 60),
+                        child: TabBar(
+                          controller: tabController,
+                          tabs: const [
+                            Tab(
+                              icon: Icon(Icons.dashboard),
+                            ),
+                            Tab(
+                              icon: Icon(Icons.list),
+                            ),
+                          ],
+                          indicatorColor: SigmaColorScheme.secondaryColor,
+                          indicatorWeight: 3,
+                        ),
                       ),
-                      constraints: const BoxConstraints.expand(height: 60),
-                      child: const TabBar(
-                        tabs: [
-                          Tab(
-                            icon: Icon(Icons.dashboard),
-                          ),
-                          Tab(
-                            icon: Icon(Icons.list),
-                          ),
-                        ],
-                        indicatorColor: SigmaColorScheme.secondaryColor,
-                        indicatorWeight: 3,
-                      ),
-                    ),
-                    const Expanded(
-                      child: TabBarView(children: [
-                        LedgerDashboardWidget(),
-                        LedgerListWidget(),
-                      ]),
-                    )
-                  ],
-                ),
+                      const Expanded(
+                        child: TabBarView(
+                          children: [
+                            LedgerDashboardWidget(),
+                            LedgerListWidget(),
+                          ],
+                        ),
+                      )
+                    ],
+                  );
+                }),
               ),
             ),
             floatingActionButton: FloatingActionButton.extended(

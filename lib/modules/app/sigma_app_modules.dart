@@ -1,4 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:sigma/modules/app/pages/logged_out_page.dart';
 import 'package:sigma/modules/ledger/ledger_module.dart';
 import 'package:sigma/modules/login/cubit/login_cubit.dart';
 import 'package:sigma/modules/login/login_module.dart';
@@ -25,6 +26,10 @@ class SigmaAppModule extends Module {
   @override
   List<ModularRoute> get routes => [
         ChildRoute("/", child: (context, args) => const HomePage()),
+        ChildRoute(
+          SigmaAppModuleRoute.loggedOutPage,
+          child: (context, args) => const LoggedOutPage(),
+        ),
         ModuleRoute(SigmaAppModuleRoute.animations, module: AnimationModule()),
         ModuleRoute(SigmaAppModuleRoute.random, module: RandomModule()),
         ModuleRoute(SigmaAppModuleRoute.todoHive, module: TodoHiveModule()),
@@ -39,4 +44,5 @@ class SigmaAppModuleRoute {
   static const String todoHive = "/todo_hive";
   static const String loginModule = "/login_module";
   static const String ledgerModule = "/ledger_module";
+  static const String loggedOutPage = "/logged_out_page";
 }

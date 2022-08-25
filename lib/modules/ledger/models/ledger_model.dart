@@ -6,17 +6,21 @@ part 'ledger_model.g.dart';
 @JsonSerializable()
 class LedgerModel extends Equatable {
   final int version;
-  final String name;
-  final String description;
-  final DateTime creationTime;
-  final DateTime editTime;
+  final String? name;
+  final String? description;
+  final DateTime? creationTime;
+  final DateTime? editTime;
+  final String? ledgerId;
+  double? totalAmount;
 
-  const LedgerModel({
+  LedgerModel({
+    this.totalAmount,
     this.version = 1,
-    required this.name,
-    required this.description,
-    required this.creationTime,
-    required this.editTime,
+    this.name,
+    this.description,
+    this.creationTime,
+    this.editTime,
+    this.ledgerId,
   });
 
   factory LedgerModel.fromJson(Map<String, dynamic> json) =>
