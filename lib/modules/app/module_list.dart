@@ -1,5 +1,6 @@
 import 'package:sigma/modules/ledger/ledger_module.dart';
 import 'package:sigma/modules/login/login_module.dart';
+import 'package:sigma/modules/riverpod_counter/riverpod_counter_module.dart';
 import 'package:sigma/modules/todo_hive/todo_hive_module.dart';
 
 import '../animations/animations_module.dart';
@@ -28,5 +29,11 @@ final List<ModuleInfo> modulesList = [
   ModuleInfo(
     moduleName: "Ledger Module",
     moduleRoute: LedgerModuleRoutes.getRoute(LedgerModuleRoutes.ladgerHome),
+  ),
+  ModuleInfo(
+    moduleName: "Counter with RiverPod",
+    moduleRoute: RiverpodCounterModuleRoutes.getRoute(
+      RiverpodCounterModuleRoutes.riverpodCounterHome,
+    ),
   ),
 ];

@@ -59,6 +59,7 @@ dependencies:
   equatable: ^2.0.3
   firebase_auth: ^3.6.3
   intl: ^0.17.0
+  flutter_riverpod: ^2.0.0-dev.5
   
   
 

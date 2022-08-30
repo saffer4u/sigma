@@ -3,6 +3,7 @@ import 'package:sigma/modules/app/pages/logged_out_page.dart';
 import 'package:sigma/modules/ledger/ledger_module.dart';
 import 'package:sigma/modules/login/cubit/login_cubit.dart';
 import 'package:sigma/modules/login/login_module.dart';
+import 'package:sigma/modules/riverpod_counter/riverpod_counter_module.dart';
 import 'package:sigma/modules/todo_hive/todo_hive_module.dart';
 import 'package:sigma/services/database_service.dart';
 
@@ -35,6 +36,8 @@ class SigmaAppModule extends Module {
         ModuleRoute(SigmaAppModuleRoute.todoHive, module: TodoHiveModule()),
         ModuleRoute(SigmaAppModuleRoute.loginModule, module: LoginModule()),
         ModuleRoute(SigmaAppModuleRoute.ledgerModule, module: LedgerModule()),
+        ModuleRoute(SigmaAppModuleRoute.riverpodCounterModule,
+            module: RiverpodCounterModule()),
       ];
 }
 
@@ -44,5 +47,6 @@ class SigmaAppModuleRoute {
   static const String todoHive = "/todo_hive";
   static const String loginModule = "/login_module";
   static const String ledgerModule = "/ledger_module";
+  static const String riverpodCounterModule = "/riverpod_counter_module";
   static const String loggedOutPage = "/logged_out_page";
 }
